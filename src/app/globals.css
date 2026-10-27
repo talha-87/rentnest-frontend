@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: #f7f8f4; color: #18221f; font-family: Arial, Helvetica, sans-serif; }
+a { text-decoration: none; }
+button, input, select, textarea { font: inherit; }
+.container-shell { width: min(1160px, calc(100% - 40px)); margin-inline: auto; }
+@media (max-width: 640px) { .container-shell { width: min(100% - 28px, 1160px); } }
+
+.btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 999px; background: #176b52; color: white; padding: 13px 21px; font-weight: 700; transition: background .2s, transform .2s; }
+.btn-primary:hover { background: #10513e; transform: translateY(-1px); }
+.btn-secondary { display: inline-flex; align-items: center; justify-content: center; border: 1px solid #dfe5df; border-radius: 999px; background: white; color: #18221f; padding: 12px 18px; font-weight: 700; }
+.nav-link { color: #4e5b54; font-size: 14px; font-weight: 650; transition: color .2s; }
+.nav-link:hover { color: #176b52; }
+.field-label { display: block; margin-bottom: 7px; color: #37443d; font-size: 13px; font-weight: 700; }
+.field { width: 100%; border: 1px solid #dfe5df; border-radius: 13px; background: white; padding: 12px 14px; color: #18221f; outline: none; }
+.field:focus { border-color: #176b52; box-shadow: 0 0 0 3px rgba(23,107,82,.1); }
+.section-kicker { color: #176b52; font-size: 12px; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }
