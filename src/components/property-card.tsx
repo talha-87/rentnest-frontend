@@ -11,7 +11,7 @@ export function PropertyCard({ property }: { property: Property }) {
   return (
     <article className="group overflow-hidden rounded-3xl border border-line bg-white shadow-soft transition hover:-translate-y-1">
       <Link href={`/properties/${property.id}`} className="relative block h-60 overflow-hidden bg-gray-100">
-        <Image src={property.imageUrl || fallback} alt={property.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="object-cover transition duration-500 group-hover:scale-105" />
+        <Image src={property.image || fallback} alt={property.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="object-cover transition duration-500 group-hover:scale-105" />
         <span className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1.5 text-xs font-bold text-brand">{property.available === false ? "Rented" : "Available"}</span>
         <span className="absolute bottom-4 right-4 rounded-full bg-white p-2 text-ink"><MoveUpRight size={17}/></span>
       </Link>
