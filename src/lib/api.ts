@@ -54,10 +54,28 @@ export async function api<T>(path: string, options: ApiOptions = {}): Promise<T>
     throw new ApiError("Could not connect to the server. Check your internet connection and try again.", 0, error);
   }
 
-  const contentType = response.headers.get("content-type") || "";
-  const payload: unknown = contentType.includes("application/json")
-    ? await response.json().catch(() => null)
-    : await response.text().catch(() => "");
+ 
+const contentType = response.headers.get("content-type") || "";
+let payload: unknown;
+
+try {
+  if (contentType.includes("application/json")) {
+    const text = await response.text();
+    payload = text ? JSON.parse(text) : null;
+  } else {
+    payload = await response.text();
+  }
+} catch {
+  payload = null;
+
+  if (response.ok) {
+    throw new ApiError(
+      "The server returned an invalid response. Please try again.",
+      response.status
+    );
+  }
+}
+
 
   if (!response.ok) throw new ApiError(readMessage(payload, response.status), response.status, payload);
   return payload as T;
