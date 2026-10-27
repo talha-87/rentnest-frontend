@@ -6,9 +6,9 @@ import type { Property } from "@/types";
 import { PropertyCard } from "@/components/property-card";
 
 const demoProperties: Property[] = [
-  { id: "demo-1", title: "Sunlit modern family home", location: "Gulshan, Dhaka", price: 1250, bedrooms: 3, bathrooms: 2, type: "Apartment", imageUrl: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80", amenities: ["Balcony", "Parking"] },
-  { id: "demo-2", title: "Minimal city-view apartment", location: "Dhanmondi, Dhaka", price: 890, bedrooms: 2, bathrooms: 2, type: "Apartment", imageUrl: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=80", amenities: ["Lift", "Security"] },
-  { id: "demo-3", title: "Quiet garden-side residence", location: "Uttara, Dhaka", price: 740, bedrooms: 2, bathrooms: 1, type: "House", imageUrl: "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=1000&q=80", amenities: ["Garden", "Parking"] }
+  { id: "demo-1", title: "Sunlit modern family home", location: "Gulshan, Dhaka", price: 1250, bedrooms: 3, bathrooms: 2, type: "Apartment", image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80", amenities: ["Balcony", "Parking"] },
+  { id: "demo-2", title: "Minimal city-view apartment", location: "Dhanmondi, Dhaka", price: 890, bedrooms: 2, bathrooms: 2, type: "Apartment", image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=80", amenities: ["Lift", "Security"] },
+  { id: "demo-3", title: "Quiet garden-side residence", location: "Uttara, Dhaka", price: 740, bedrooms: 2, bathrooms: 1, type: "House", image: "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=1000&q=80", amenities: ["Garden", "Parking"] }
 ];
 
 async function getFeatured(): Promise<Property[]> {
