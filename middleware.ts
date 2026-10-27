@@ -1,14 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 
-/**
- * UX-level route gate only. Cookies set by client code can be modified by users.
- * The backend must enforce authentication and role authorization on every API.
- */
+const ROLE_HOME: Record<string, string> = {
+  ADMIN: "/dashboard/admin",
+  LANDLORD: "/dashboard/landlord",
+  TENANT: "/dashboard/tenant",
+};
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get("rentnest_token")?.value;
   const role = request.cookies.get("rentnest_role")?.value;
 
+  // No session cookie: redirect to login.
   if (!token) {
     const url = new URL("/auth/login", request.url);
     url.searchParams.set("next", pathname);
@@ -23,13 +26,20 @@ export function middleware(request: NextRequest) {
         ? "TENANT"
         : null;
 
-  if (requiredRole && role && role !== requiredRole) {
-    const destination = role === "ADMIN"
-      ? "/dashboard/admin"
-      : role === "LANDLORD"
-        ? "/dashboard/landlord"
-        : "/dashboard/tenant";
-    return NextResponse.redirect(new URL(destination, request.url));
+  // Only role-specific dashboard routes need role checks.
+  if (requiredRole && role !== requiredRole) {
+    const ownDashboard = role ? ROLE_HOME[role] : undefined;
+
+    if (ownDashboard) {
+      return NextResponse.redirect(
+        new URL(ownDashboard, request.url),
+      );
+    }
+
+    // Missing or invalid role: ask the user to sign in again.
+    const url = new URL("/auth/login", request.url);
+    url.searchParams.set("next", pathname);
+    return NextResponse.redirect(url);
   }
 
   return NextResponse.next();
