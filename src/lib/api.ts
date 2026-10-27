@@ -34,50 +34,95 @@ function readMessage(payload: unknown, status: number): string {
   return messages[status] || `Request failed (${status}). Please try again.`;
 }
 
+
 export async function api<T>(path: string, options: ApiOptions = {}): Promise<T> {
-  const { body, token, headers, ...rest } = options;
+  const { body, token, headers, signal: externalSignal, ...rest } = options;
   const url = `${API_BASE}/${path.startsWith("/") ? path.slice(1) : path}`;
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 30_000);
+
+  // Keep support for cancellation from the caller.
+  const forwardAbort = () => controller.abort();
+  if (externalSignal?.aborted) {
+    controller.abort();
+  } else {
+    externalSignal?.addEventListener("abort", forwardAbort, { once: true });
+  }
+
   let response: Response;
+
   try {
     response = await fetch(url, {
       ...rest,
+      signal: controller.signal,
       headers: {
-        ...(body === undefined || body instanceof FormData ? {} : { "Content-Type": "application/json" }),
+        ...(body === undefined || body instanceof FormData
+          ? {}
+          : { "Content-Type": "application/json" }),
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
         ...headers,
       },
-      body: body === undefined ? undefined : body instanceof FormData ? body : JSON.stringify(body),
+      body:
+        body === undefined
+          ? undefined
+          : body instanceof FormData
+            ? body
+            : JSON.stringify(body),
       cache: "no-store",
     });
   } catch (error) {
-    if (error instanceof Error && error.name === "AbortError") throw error;
-    throw new ApiError("Could not connect to the server. Check your internet connection and try again.", 0, error);
-  }
+    if (controller.signal.aborted) {
+      if (externalSignal?.aborted) {
+        throw new ApiError("The request was cancelled. Please try again.");
+      }
 
- 
-const contentType = response.headers.get("content-type") || "";
-let payload: unknown;
+      throw new ApiError(
+        "The server took too long to respond. Please try again.",
+        408,
+        error
+      );
+    }
 
-try {
-  if (contentType.includes("application/json")) {
-    const text = await response.text();
-    payload = text ? JSON.parse(text) : null;
-  } else {
-    payload = await response.text();
-  }
-} catch {
-  payload = null;
-
-  if (response.ok) {
     throw new ApiError(
-      "The server returned an invalid response. Please try again.",
-      response.status
+      "Could not connect to the server. Check your internet connection and try again.",
+      0,
+      error
+    );
+  } finally {
+    clearTimeout(timeoutId);
+    externalSignal?.removeEventListener("abort", forwardAbort);
+  }
+
+  const contentType = response.headers.get("content-type") || "";
+  let payload: unknown;
+
+  try {
+    if (contentType.includes("application/json")) {
+      const text = await response.text();
+      payload = text ? JSON.parse(text) : null;
+    } else {
+      payload = await response.text();
+    }
+  } catch {
+    payload = null;
+
+    if (response.ok) {
+      throw new ApiError(
+        "The server returned an invalid response. Please try again.",
+        response.status
+      );
+    }
+  }
+
+  if (!response.ok) {
+    throw new ApiError(
+      readMessage(payload, response.status),
+      response.status,
+      payload
     );
   }
-}
 
-
-  if (!response.ok) throw new ApiError(readMessage(payload, response.status), response.status, payload);
   return payload as T;
 }
 
