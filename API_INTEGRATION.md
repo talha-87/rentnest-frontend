@@ -42,3 +42,42 @@ Frontend API base URL: `NEXT_PUBLIC_API_URL` (default: `https://rentnest-backend
 3. Verify exact endpoint methods/payloads against backend routes.
 4. Test login, logout, role-specific dashboards, 401/403 errors, and payment success/cancel.
 5. Confirm payment state from the backend rather than trusting query parameters or the success page.
+
+
+## Manual API Verification Checklist
+
+Run these checks before submitting the project.
+
+### Public browsing
+- [ ] Verify the home page loads featured properties.
+- [ ] Verify the properties page loads correctly.
+- [ ] Verify property details and invalid property IDs.
+- [ ] Verify category and price filters.
+
+### Authentication
+- [ ] Test tenant registration and login.
+- [ ] Test landlord login and dashboard.
+- [ ] Test admin login and dashboard.
+- [ ] Test logout and protected dashboard redirects.
+- [ ] Verify unauthorized API requests are rejected.
+
+### Rental workflow
+- [ ] Submit a rental request as a tenant.
+- [ ] Verify the request appears in the tenant dashboard.
+- [ ] Approve or reject the request as a landlord.
+- [ ] Verify the updated request status.
+
+### Payment workflow
+- [ ] Start checkout from the tenant payment page.
+- [ ] Verify the backend creates the payment session.
+- [ ] Test payment success and cancellation.
+- [ ] Confirm payment status using the backend.
+
+### Error handling and deployment
+- [ ] Verify form validation messages.
+- [ ] Verify failed API requests show useful error messages.
+- [ ] Verify loading indicators appear.
+- [ ] Confirm secret keys and `.env.local` are not committed.
+- [ ] Verify the production API URL and CORS settings.
+
+Fix any failed checks before submission.
