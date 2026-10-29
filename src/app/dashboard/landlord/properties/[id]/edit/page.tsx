@@ -125,16 +125,17 @@ export default function EditPropertyPage() {
     await api(`/properties/${id}`, {
   method: "PATCH",
   token,
-  body: {
-    title: form.title.trim(),
-    location: form.location.trim(),
-    price: Number(form.price),
-    bedrooms: Number(form.bedrooms),
-    bathrooms: Number(form.bathrooms),
-    image: form.imageUrl.trim(),
-    description: form.description.trim(),
-    available: form.available,
-  },
+ body: {
+  title: form.title.trim(),
+  location: form.location.trim(),
+  price: Number(form.price),
+  type: form.type,
+  bedrooms: Number(form.bedrooms),
+  bathrooms: Number(form.bathrooms),
+  image: form.imageUrl.trim(),
+  description: form.description.trim(),
+  available: form.available,
+},
 });
 
       toast.success("Property updated successfully.");
