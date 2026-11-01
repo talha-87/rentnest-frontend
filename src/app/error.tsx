@@ -12,7 +12,7 @@ export default function ErrorPage({
   reset: () => void;
 }) {
   useEffect(() => {
-    // Keep details in the browser console for debugging; don't expose internals to users.
+   
     console.error("RentNest route error:", error);
   }, [error]);
 
