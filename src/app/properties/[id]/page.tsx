@@ -57,8 +57,6 @@ export default function PropertyDetailsPage() {
     ? responseData[0]
     : responseData;
 
-  // Load reviews from the backend.
-  // React Query fetches them again when the property ID changes.
   const reviewsQuery = useQuery({
     queryKey: ["property-reviews", params.id],
     queryFn: () =>
