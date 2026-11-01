@@ -156,8 +156,6 @@ export default function PayRequestPage() {
         },
       );
 
-      // Supports API helpers that return either the data object
-      // directly or the full { success, data } response.
       const response = result as PaymentData & {
         data?: PaymentData;
       };
