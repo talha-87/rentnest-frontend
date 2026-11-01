@@ -1,41 +1,103 @@
-# RentNest Frontend
+# 🏠 RentNest — Rental Property Marketplace
 
-Responsive rental marketplace frontend built with Next.js App Router, TypeScript, Tailwind CSS, TanStack Query, Zod, and Sonner.
+**Find & List Rental Properties with Ease**
 
-## Prerequisites
-- Node.js 20.9+ recommended
-- npm
-- Existing RentNest backend API
+RentNest is a responsive rental property marketplace built with Next.js and TypeScript. It helps tenants find rental homes and landlords manage their properties through role-based dashboards.
 
-## Setup
+## 🌐 Live Demo
+
+- **Frontend:** https://rentnest-fronted.vercel.app
+- **Backend API:** https://rentnest-backend-1.onrender.com/api
+- **Frontend Repository:** https://github.com/talha-87/rentnest-frontend
+- **Backend Repository:** https://github.com/talha-87/RentNest-Backend
+
+## ✨ Features
+
+- User registration and login
+- Role-based dashboards for Tenant, Landlord, and Admin
+- Browse and filter rental properties
+- Property details and image display
+- Rental request submission and status tracking
+- Landlord property management
+- Approve and reject rental requests
+- Stripe payment integration
+- Payment history
+- Reviews for eligible rentals
+- Form validation and user-friendly error messages
+- Responsive user interface
+
+## 🛠️ Technologies Used
+
+- Next.js (App Router)
+- React
+- TypeScript
+- Tailwind CSS
+- REST API integration
+- JWT authentication
+- Stripe payment integration
+- Vercel deployment
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+Install Node.js and npm before running the project.
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/talha-87/rentnest-frontend.git
+```
+
+### 2. Open the project folder
+
+```bash
+cd rentnest-frontend
+```
+
+### 3. Install dependencies
+
 ```bash
 npm install
-cp .env.example .env.local
 ```
-Edit `.env.local` and set `NEXT_PUBLIC_API_URL` to your actual backend base URL. Then run:
+
+### 4. Configure environment variables
+
+Create a `.env.local` file in the project root and add the required values:
+
+```env
+NEXT_PUBLIC_API_URL=https://rentnest-backend-1.onrender.com/api
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_51TzHjvPWVAzVMG29aJV9g7akgHsEuvHZcoeAGpWYEB874SLt2eGiL9swmcS9nvXdflo3jAU3lGBUQZRZnHluZT79008bapyzjN
+```
+
+Replace the Stripe placeholder with your own Stripe **test publishable key**. Never put your Stripe secret key in a `NEXT_PUBLIC_` variable or commit secret keys to GitHub.
+
+### 5. Run the development server
+
 ```bash
 npm run dev
 ```
-Open http://localhost:3000.
 
-## Important integration work
-This is an initial frontend scaffold based on the assignment requirements. API paths and payloads are assumptions until verified against your backend. See `API_INTEGRATION.md`.
+Open http://localhost:3000 in your browser.
 
-## Roles
-- Tenant: browse properties, submit rental request, view request status, start checkout.
-- Landlord: view properties, create listing, approve/reject requests.
-- Admin: view users, search, ban/unban.
+## 💳 Payment Testing
 
-## Security
-- The middleware cookie gate only works if the backend sets a `rentnest_token` cookie. The scaffold auth helper currently stores JWT in localStorage, which middleware cannot read.
-- For production, prefer HttpOnly Secure cookies, server-side session validation, and backend role authorization.
-- Do not put Stripe secret keys in frontend variables.
-- Payment success UI is not payment verification. Backend must verify payment with Stripe session/webhook.
+Use Stripe test mode and Stripe's official test card details. Do not use real card details for test transactions.
 
-## Before submission
-- Match endpoint paths and schemas to the backend.
-- Configure CORS and production API URL.
-- Verify role protection and all flows with real accounts.
-- Test mobile and desktop layouts.
-- Add 20 meaningful commits while implementing features; do not manufacture commit history retroactively.
-- Deploy to Vercel only after `npm run build` passes.
+## 📁 Project Structure
+
+The project uses Next.js App Router. The main application code is located in the `src` directory. Routes, components, API helpers, authentication utilities, and styles are organized according to the project's source structure.
+
+## 🔐 Security Notes
+
+- Keep `.env.local` out of Git.
+- Never expose Stripe secret keys in frontend code.
+- Use test credentials when demonstrating payment functionality.
+
+## 👨‍💻 Author
+
+**Developer:** [Your Name]
+
+## 📄 License
+
+This project was developed for educational purposes as part of Programming Hero Assignment 5.
